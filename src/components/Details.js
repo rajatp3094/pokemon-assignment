@@ -3,13 +3,13 @@ import { useParams, Link } from "react-router-dom";
 import axios from "axios";
 import Breadcrumbs from './Breadcrumbs';
 import Loader from './Loader';
+import { getPokemonDetail } from "../service";
 
 const Details = () => {
     const { id } = useParams();
     const [pokemon, setPokemon] = useState(null);
     useEffect(() => {
-        axios
-            .get(`https://pokeapi.co/api/v2/pokemon/${id}`)
+        getPokemonDetail(id)
             .then((response) => setPokemon(response.data))
             .catch((err) => console.error(err));
     }, [id]);

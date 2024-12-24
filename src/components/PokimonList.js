@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getPokemonDetails, getPokemonList } from '../service';
+import {  getPokemonList, getPokemonSummary } from '../service';
 
 export function usePokemonList(limit = 150) {
     const [pokemonList, setPokemonList] = useState([]);
@@ -13,7 +13,7 @@ export function usePokemonList(limit = 150) {
         getPokemonList(limit)
             .then(({data}) => {
                 const detailedPokemonPromises = data.results.map((pokemon) =>
-                    getPokemonDetails(pokemon.url)
+                    getPokemonSummary(pokemon.url)
                         .then(({data: details}) => ({
                             ...pokemon,
                             types: details.types,
