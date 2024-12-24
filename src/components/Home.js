@@ -6,15 +6,15 @@ import SearchBar from './SearchBar';
 import TypeFilter from './TypeFilter';
 import { useFilteredPokemon } from './useFilteredPokemon';
 import { getTypes } from '../service';
+import Loader from './Loader';
 
 const Home = () => {
-    const { pokemonList } = usePokemonList(150);
+    const { pokemonList, loading } = usePokemonList(150);
     const {filteredPokemon, triggerSearch } =  useFilteredPokemon();
 
     const [search, setSearch] = useState('');
     const [types, setTypes] = useState([]);
     const [selectedType, setSelectedType] = useState('');
-    
 
     // Fetch types data from the API
     useEffect(() => {
@@ -35,7 +35,7 @@ const Home = () => {
     }
 
     return (
-        <div className="container mx-auto px-4 pt-4">
+        <div className="container mx-auto px-4 pt-4 h-full">
             {/* Type Filter */}
             <TypeFilter
                 types={types}
@@ -45,13 +45,15 @@ const Home = () => {
 
             {/* Search Bar */}
             <SearchBar search={search} onClick={handleSearch} setSearch={setSearch} />
-
+            
             {/* Pokémon Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {filteredPokemon.map((pokemon, index) => (
+            
+            {loading ? <div className='flex p-4 justify-center items-center w-full h-full bg-red'><Loader/></div> : <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {filteredPokemon.map((pokemon, index) => (
                     <PokemonCard key={index} pokemon={pokemon} />
                 ))}
-            </div>
+            </div>}
+            
         </div>
     );
 };

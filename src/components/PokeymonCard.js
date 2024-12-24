@@ -13,7 +13,7 @@ const PokemonCard = ({ pokemon }) => {
             />
             <div className="bg-gray-200 w-full ">
                 <p className="text-md font-bold text-sky-900 mb-20 m-6 ">{pokemon.name}</p>
-                <span className="text-sky-600 text-xs m-5 pb-[0.2rem] block"> <Link to={`/details/${pokemonId}`}>Details -></Link></span>
+                <span className="text-sky-600 text-xs m-5 pb-[0.2rem] block"> <Link to={`/details/${pokemonId}`}>Details</Link></span>
             </div>
         </div>
     );

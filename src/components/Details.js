@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import axios from "axios";
+import Breadcrumbs from './Breadcrumbs';
+import Loader from './Loader';
 
 const Details = () => {
     const { id } = useParams();
     const [pokemon, setPokemon] = useState(null);
-
     useEffect(() => {
         axios
             .get(`https://pokeapi.co/api/v2/pokemon/${id}`)
@@ -14,14 +15,10 @@ const Details = () => {
     }, [id]);
 
     return (
-        <div className="min-h-screen bg-gray-100 flex justify-center items-center p-4">
-            <div className="max-w-lg w-full">
-                <Link
-                    to="/"
-                    className="text-green-500 font-semibold hover:underline mb-4 inline-block"
-                >
-                    ← Back
-                </Link>
+        <div className="container mx-auto px-4 pt-4 min-h-screen bg-gray-100">
+            <Breadcrumbs lable={pokemon?.name}/>
+            
+            <div className="flex p-4 justify-center items-center w-full">
                 {pokemon ? (
                     <div className="bg-white rounded-lg shadow-lg overflow-hidden">
                         <div className="bg-teal-300 flex justify-center p-6">
@@ -57,7 +54,7 @@ const Details = () => {
                         </div>
                     </div>
                 ) : (
-                    <p className="text-center text-gray-500">Loading...</p>
+                    <Loader/>
                 )}
             </div>
         </div>
