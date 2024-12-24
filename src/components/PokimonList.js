@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { getPokemonDetails, getPokemonList } from '../service';
 
 export function usePokemonList(limit = 150) {
     const [pokemonList, setPokemonList] = useState([]);
@@ -9,14 +10,11 @@ export function usePokemonList(limit = 150) {
         setLoading(true);
         setError(null);
 
-        fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`)
-            .then((res) => res.json())
-            .then((data) => {
-
+        getPokemonList(limit)
+            .then(({data}) => {
                 const detailedPokemonPromises = data.results.map((pokemon) =>
-                    fetch(pokemon.url)
-                        .then((res) => res.json())
-                        .then((details) => ({
+                    getPokemonDetails(pokemon.url)
+                        .then(({data: details}) => ({
                             ...pokemon,
                             types: details.types,
                             stats: details.stats,
@@ -31,6 +29,7 @@ export function usePokemonList(limit = 150) {
                 setPokemonList(pokemonWithDetails);
             })
             .catch((err) => {
+                console.log("🚀 ~ useEffect ~ err:", err)
                 setError('Failed to load Pokémon list');
             })
             .finally(() => {

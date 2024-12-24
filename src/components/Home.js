@@ -5,6 +5,7 @@ import PokemonCard from './PokeymonCard';
 import SearchBar from './SearchBar';
 import TypeFilter from './TypeFilter';
 import { useFilteredPokemon } from './useFilteredPokemon';
+import { getTypes } from '../service';
 
 const Home = () => {
     const { pokemonList } = usePokemonList(150);
@@ -17,7 +18,7 @@ const Home = () => {
 
     // Fetch types data from the API
     useEffect(() => {
-        axios.get('https://pokeapi.co/api/v2/type')
+        getTypes()
             .then(response => setTypes(response.data.results))
             .catch(err => console.error(err));
     }, []);
