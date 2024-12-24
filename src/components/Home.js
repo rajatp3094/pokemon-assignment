@@ -7,9 +7,10 @@ import TypeFilter from './TypeFilter';
 import { useFilteredPokemon } from './useFilteredPokemon';
 import { getTypes } from '../service';
 import Loader from './Loader';
+import { ToastContainer, toast } from 'react-toastify';
 
 const Home = () => {
-    const { pokemonList, loading } = usePokemonList(150);
+    const { pokemonList, loading, error  } = usePokemonList(150);
     const {filteredPokemon, triggerSearch } =  useFilteredPokemon();
 
     const [search, setSearch] = useState('');
@@ -20,13 +21,21 @@ const Home = () => {
     useEffect(() => {
         getTypes()
             .then(response => setTypes(response.data.results))
-            .catch(err => console.error(err));
+            .catch(err => {
+                console.error(err);
+                toast.error('Something went wrong');
+            });
     }, []);
 
     useEffect(()=> {
         triggerSearch(pokemonList, search, selectedType)
         // eslint-disable-next-line
     },[pokemonList, types, selectedType])
+
+    useEffect(() => {
+        if(error) 
+            toast.error('Something went wrong');
+    }, [error])
 
     // Use custom hook for filtered Pokémon
     
@@ -36,6 +45,18 @@ const Home = () => {
 
     return (
         <div className="container mx-auto px-4 pt-4 h-full">
+            <ToastContainer 
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             {/* Type Filter */}
             <TypeFilter
                 types={types}

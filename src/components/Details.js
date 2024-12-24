@@ -4,6 +4,7 @@ import axios from "axios";
 import Breadcrumbs from './Breadcrumbs';
 import Loader from './Loader';
 import { getPokemonDetail } from "../service";
+import { ToastContainer, toast } from 'react-toastify';
 
 const Details = () => {
     const { id } = useParams();
@@ -11,11 +12,26 @@ const Details = () => {
     useEffect(() => {
         getPokemonDetail(id)
             .then((response) => setPokemon(response.data))
-            .catch((err) => console.error(err));
+            .catch((err) => {
+                console.error(err);
+                toast.error('Something went wrong');
+            });
     }, [id]);
 
     return (
         <div className="container mx-auto px-4 pt-4 min-h-screen bg-gray-100">
+            <ToastContainer 
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick={false}
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="light"
+            />
             <Breadcrumbs lable={pokemon?.name}/>
             
             <div className="flex p-4 justify-center items-center w-full">
