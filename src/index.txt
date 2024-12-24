@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 
+.home-container,
+.details-container {
+  padding: 20px;
+}
+
+.search-bar {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.pokemon-grid {
+  display: flex;
+  gap: 15px;
+}
+
+.pokemon-card,
+.details-card {
+  border: 1px solid #ddd;
+  /* padding: 10px; */
+text-align: center;
+}
+
+*/
